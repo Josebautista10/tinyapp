@@ -1,0 +1,9 @@
+.edit {
+  border-radius: 12px;
+  font-size: 24px;
+}
+
+.edit:hover {
+  background-color: blue; 
+  color: lightblue;
+}
