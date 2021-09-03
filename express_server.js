@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const bcrypt = require('bcryptjs');
 const app = express();
+const { checkEmail } = require('./helpers');
 const PORT = 8080;
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -27,30 +28,6 @@ const generateRandomString = () => {
   return result;
 };
 
-const findURL = (shortURL, urlDatabase) => {
-  if (!urlDatabase[shortURL]) {
-    return false;
-  }
-  return true;
-};
-
-const confirmUserID = (shortURL, req, urlDatabase) => {
-  if (urlDatabase[shortURL].userID !== req.session.user_id) {
-    return false;
-  }
-
-  return true;
-};
-
-const checkEmail = (email, users) => {
-  for (let user in users) {
-    if (users[user].email === email) {
-      return users[user];
-    }
-  }
-  return false;
-};
-
 // in-memory database
 const urlDatabase = {
   b6UTxQ: {
@@ -63,6 +40,7 @@ const urlDatabase = {
   }
 };
 
+//default users for testing
 const users = {
   userRandomID: {
     id: 'userRandomID',
@@ -122,38 +100,39 @@ app.get('/login', (req, res) => {
 
 // gets the username and stores it in cookies
 app.post('/login', (req, res) => {
-  const templateVars = {
-    user: null
-  };
-  
   const email = req.body.email;
   const password = req.body.password;
   const user = checkEmail(email, users);
 
   if (!email || !password) {
-    throw Error(
-      'Error 400: Bad Request\nPlease enter a valid email address and password.'
-    );
+    res.status(404).send('Please enter a valid email address and password.');
   }
 
   if (!user || !bcrypt.compareSync(password, user.password)) {
-    return res.status(400).render('login', templateVars);
+    res.status(400).send('incorrect password, please try again');
   }
 
-  req.session.user_id = user.id
+  req.session.user_id = user.id;
   res.redirect('/urls');
 });
 
 //Logs the user out taking them to main page
 app.post('/logout', (req, res) => {
-  req.session.user_id = null
+  req.session.user_id = null;
   res.redirect('/login');
+});
+
+app.get('/', (req, res) => {
+  if (!req.session.user_id) {
+    res.redirect('/login');
+  }
+  res.redirect('/urls');
 });
 
 // browse GET urls
 app.get('/urls', (req, res) => {
   if (!req.session.user_id) {
-    console.log("there was no user_id found");
+    console.log('there was no user_id found');
     res.status(404).send('Please Login');
   }
 
