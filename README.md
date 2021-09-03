@@ -4,9 +4,14 @@ TinyApp is a full stack web application built with Node, Express and bootStrap t
 
 ## Final Product
 
-!["screenshot description"](#)
+!["Login Page"](https://github.com/Josebautista10/tinyapp/blob/main/docs/login-page.png?raw=true)
 
-!["screenshot description"](#)
+!["Creating a new URL"](https://github.com/Josebautista10/tinyapp/blob/main/docs/new-url-page.png?raw=true)
+
+!["Register Page"](https://github.com/Josebautista10/tinyapp/blob/main/docs/register-page.png?raw=true)
+
+!["URLS Page"](https://github.com/Josebautista10/tinyapp/blob/main/docs/urls-page.png?raw=true)
+
 
 ## Dependencies
 

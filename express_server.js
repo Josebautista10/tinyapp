@@ -69,14 +69,12 @@ app.post('/register', (req, res) => {
   const hashPassword = bcrypt.hashSync(req.body.password, 10);
 
   if (!req.body.email || !req.body.password) {
-    throw Error(
-      'Error 400: Bad Request\nPlease enter a valid email address and password.'
-    );
+    res.status(404).send('Your input was invalid, please enter a valid email address and password.');
   }
 
   for (const account in users) {
     if (users[account].email === req.body.email) {
-      throw Error('Error 400: Bad Request\nThat account already exists');
+      res.status(400).send('That account already exists, try logging in');
     }
   }
 
@@ -133,7 +131,9 @@ app.get('/', (req, res) => {
 app.get('/urls', (req, res) => {
   if (!req.session.user_id) {
     console.log('there was no user_id found');
-    res.status(404).send('Please Login');
+    res
+      .status(404)
+      .send('You are not logged in, please Login to access tinyapp features');
   }
 
   let newObj = {};
