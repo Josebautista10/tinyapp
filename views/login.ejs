@@ -16,11 +16,21 @@
       <h1 class="display-1">Welcome Back!</h1>
     </div>
     <div class="d-flex justify-content-center">
-      <form method="POST" action="/login">
+      <form
+        method="POST"
+        action="/login"
+        class="bg-success"
+        style="
+          padding: 40px;
+          border-radius: 30px;
+          border: 5px solid #000000 !important;
+          box-shadow: 0 1rem 3rem rgba(0, 0, 0, 13.175) !important;
+        "
+      >
         <div class="d-flex justify-content-center" style="margin-top: 40px">
-          <h1>Login</h1>
+          <h1 class="text-dark" style="margin-bottom:20px; ">Login</h1>
         </div>
-        <label class="h4" for="email">Email Address</label>
+        <label class="h4 text-dark" for="email">Email Address</label>
         <br />
         <input
           id="email"
@@ -30,7 +40,7 @@
           class="form-control form-control-lg"
         />
         <br />
-        <label class="h4" for="password">Password</label>
+        <label class="h4 text-dark" for="password">Password</label>
         <br />
         <input
           id="password"
